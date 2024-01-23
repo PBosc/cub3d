@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 15:01:45 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/16 16:43:05 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/23 18:46:57 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ void	ft_lstclear(t_garbage **lst)
 	while (*lst)
 	{
 		tmp = (*lst)->next;
-		free(lst->content);
-        free(lst);
+		cfree(lst->content);
+        cfree(lst);
 		*lst = tmp;
 	}
 }
 
-void    *garbage_collector(void *ptr, int i)
+void    *gc(void *ptr, int i)
 {
     static *t_garbage gb = NULL;
     
