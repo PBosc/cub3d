@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 15:01:45 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/23 18:46:57 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:49:57 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@ t_garbage	*ft_lstnew(void *content)
 	return (lst);
 }
 
+t_garbage	*ft_lstlastt(t_garbage *lst)
+{
+	while (lst)
+	{
+		if (!lst->next)
+			return (lst);
+		lst = lst->next;
+	}
+	return (lst);
+}
+
 void	ft_lstadd_back(t_garbage **lst, t_garbage *new)
 {
 	t_garbage	*last;
@@ -32,7 +43,7 @@ void	ft_lstadd_back(t_garbage **lst, t_garbage *new)
 	{
 		if (*lst)
 		{
-			last = ft_lstlast(*lst);
+			last = ft_lstlastt(*lst);
 			last->next = new;
 		}
 		else
@@ -44,23 +55,26 @@ void	ft_lstclear(t_garbage **lst)
 {
 	t_garbage	*tmp;
 
-	if (!del || !lst || !*lst)
+	if (!lst || !*lst)
 		return ;
 	while (*lst)
 	{
 		tmp = (*lst)->next;
-		cfree(lst->content);
-        cfree(lst);
+		cfree((*lst)->content);
+        cfree(*lst);
 		*lst = tmp;
 	}
 }
 
 void    *gc(void *ptr, int i)
 {
-    static *t_garbage gb = NULL;
+    static t_garbage *gb = NULL;
+
     
     if (i)
     {
+		// if (!ptr)
+		// 	gc(NULL, 0);
         ft_lstadd_back(&gb, ft_lstnew(ptr));
         return (ptr);
     }

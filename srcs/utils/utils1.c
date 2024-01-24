@@ -6,11 +6,11 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 17:49:36 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/23 18:46:57 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:16:30 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "cub.h"
 
 char	*ft_strchr(const char *s, int c)
 {

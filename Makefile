@@ -1,12 +1,23 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
+MLXFLAGS = -L ./minilibx-linux -lmlx -Ilmlx -lXext -lX11
 INCLUDE = -I./includes
-VPATH = ./srcs 
+VPATH = srcs srcs/parsing srcs/utils srcs/error srcs/get_next_line srcs/ft_dprintf
 RM = rm -rf
 NAME = cub3D
 
+UTILS = utils1 utils2 utils3
+PARSING = checkings colors init map textures
+ERROR = panic garbage
+GNL = get_next_line get_next_line_utils
+DPRINTF = ft_dprintf dprintf_utils dprintf_utils2
 
-SRCS =	main.c
+SRCS = $(addsuffix .c, $(UTILS))\
+	   $(addsuffix .c, $(PARSING))\
+	   $(addsuffix .c, $(ERROR))\
+	   $(addsuffix .c, $(GNL))\
+	   $(addsuffix .c, $(DPRINTF))\
+	   main.c
 
 OBJ_DIR = obj
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
@@ -14,7 +25,8 @@ OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 all: $(NAME)
 
 $(NAME): $(OBJ_DIR)  $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(MAKE) -C ./minilibx-linux
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLXFLAGS) -o $(NAME)
 
 bonus: all
 

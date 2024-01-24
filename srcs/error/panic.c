@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checkings.c                                        :+:      :+:    :+:   */
+/*   panic.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 18:08:21 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/24 16:22:43 by ybelatar         ###   ########.fr       */
+/*   Created: 2024/01/24 15:59:33 by ybelatar          #+#    #+#             */
+/*   Updated: 2024/01/24 16:41:30 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-// void check_map(t_game *game, int c)
-// {
-//     if ()
-//         panic(MAP_ERR);
-// }
+/*tu peux ajouter des arguments pour faire en sorte que ca free la mlx par exemple*/
+void panic(char *message)
+{
+    ft_dprintf(2, "Error\n%s", message);
+    gc(NULL, 0);
+    exit(1);
+}

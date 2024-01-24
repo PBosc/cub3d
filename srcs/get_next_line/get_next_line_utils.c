@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 05:55:39 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/23 18:46:57 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:45:59 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ void	free_and_new(t_list **plist, t_list *new, char **buffer)
 	while (*plist)
 	{
 		tmp = (*plist)->next;
-		cfree((*plist)->content);
-		cfree(*plist);
+		free((*plist)->content);
+		free(*plist);
 		*plist = tmp;
 	}
 	*plist = NULL;
@@ -104,7 +104,7 @@ void	free_and_new(t_list **plist, t_list *new, char **buffer)
 		*plist = new;
 	else
 	{
-		cfree(*buffer);
-		cfree(new);
+		free(*buffer);
+		free(new);
 	}
 }

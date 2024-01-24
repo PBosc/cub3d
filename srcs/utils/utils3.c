@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:23:37 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/23 18:46:57 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:18:42 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void    cfree(void *ptr)
 {
-    cfree(ptr);
+    free(ptr);
     ptr = NULL;
 }

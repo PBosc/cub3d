@@ -6,11 +6,11 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 19:32:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2023/12/14 16:01:14 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:40:59 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "cub.h"
 
 int	ft_strlen(const char *str)
 {
@@ -39,7 +39,7 @@ void	ft_putstr(char *str)
 	}
 }
 
-char	**ft_copy(char **map, t_game *game)
+char	**ft_copy(char **map)
 {
 	char	**copied;
 	int		i;
@@ -48,7 +48,7 @@ char	**ft_copy(char **map, t_game *game)
 	copied = malloc(sizeof(char *) * (plen(map) + 1));
 	if (!copied)
 	{
-		exit_error(ERR_MALLOC, 1, 0, game);
+		panic(MALLOC_ERR);
 		return (NULL);
 	}
 	while (i < plen(map))
@@ -58,4 +58,20 @@ char	**ft_copy(char **map, t_game *game)
 	}
 	copied[i] = NULL;
 	return (copied);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	if (!s1 || !s2)
+		return (-1);
+	if (!s1 && !s2)
+		return (0);
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i] && i < n)
+		i++;
+	if (i == n)
+		return (0);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 05:55:35 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/23 18:46:57 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:45:34 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	refresh(t_list **plist)
 	new = malloc(sizeof(t_list));
 	if (!new || !buffer)
 	{
-		cfree(buffer);
+		free(buffer);
 		return ;
 	}
 	last = ft_lstlast(*plist);
@@ -73,7 +73,7 @@ void	file_to_list(t_list **plist, int fd)
 		len_read = read(fd, buffer, BUFFER_SIZE);
 		if (len_read == 0)
 		{
-			cfree(buffer);
+			free(buffer);
 			return ;
 		}
 		buffer[len_read] = 0;

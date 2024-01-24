@@ -6,15 +6,15 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:45:59 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/23 18:43:02 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:46:21 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-int check_extension(char *str)
+int check_extension(char *path)
 {
-    if (!str)
+    if (!path)
         return (0);
     return (!ft_strcmp(ft_strchr(path, '.'), ".cub"));
 }
@@ -33,9 +33,9 @@ int main (int ac, char **av)
     if (!game)
         panic(MALLOC_ERR);
     if (ac != 2 || !check_extension(av[1]))
-        return (ft_dprintf("Error\nWrong input\n"), 1);
+        return (ft_dprintf(2, "Error\nWrong input\n"), 1);
     init_game(game);
-    init_map(av[1], game)
-    init_mlx(game)
+    init_map(av[1], game);
+    //init_mlx(game);
     return (0);
 }
