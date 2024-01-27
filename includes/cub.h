@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:46:02 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/24 16:41:13 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/27 20:12:01 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,13 @@ typedef struct s_param
 typedef struct s_game
 {
 	int					fd;
-	t_param				*param;
-	t_pos				*pos;
-	char				**premap;
+	t_pos				pos;
 	char				**map;
+	int					length;
+	int					width;
+	char				*textures[4];
+	int					colors_c[4];
+	int					colors_f[4];
 }						t_game;
 
 typedef struct s_garbage
@@ -54,6 +57,11 @@ typedef struct s_garbage
 
 void					init_map(char *path, t_game *game);
 void					get_info_map(t_game *game);
+void					set_colors(char *line, t_game *game);
+void					set_texture(char *line, t_game *game);
+void					pre_format_map(t_game *game);
+void					format_map(t_game *game);
+int						check_map(t_game *game);
 
 /*Utils*/
 
@@ -65,6 +73,19 @@ int						ft_strlen(const char *str);
 char					**ft_copy(char **map);
 int						plen(char **map);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
+void					*ft_calloc(size_t nmemb, size_t size);
+void					skip_spaces(char *line, int *i);
+int						plen(char **map);
+int						ft_atoi(const char *str);
+int						max(int a, int b);
+char					**ft_split(char const *s, char c);
+
+int						first_last_line(t_game *game);
+void					display_tab(char **tab);
+int						check_line(t_game *game);
+int						first_last_inline(char *line);
+int						valid_char(char *line, int *player_count);
+int						no_dups(t_game *game);
 
 /*Garbage collector*/
 
@@ -74,5 +95,6 @@ void					*gc(void *ptr, int i);
 
 void					panic(char *message);
 void					cfree(void *ptr);
+void					free_tab(char **tab);
 
 #endif

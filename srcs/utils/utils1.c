@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 17:49:36 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/24 16:16:30 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/27 21:51:47 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	plen(char **map)
 	if (!map || !(*map))
 		return (0);
 	i = 0;
+	printf("TEST :%s\n", map[1]);
 	while (map[i])
 		i++;
 	return (i);
@@ -100,6 +101,5 @@ char	**join_tab(char **map, char *str)
 	}
 	res[i++] = str;
 	res[i] = NULL;
-	cfree(map);
 	return (res);
 }

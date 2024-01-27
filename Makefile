@@ -6,8 +6,8 @@ VPATH = srcs srcs/parsing srcs/utils srcs/error srcs/get_next_line srcs/ft_dprin
 RM = rm -rf
 NAME = cub3D
 
-UTILS = utils1 utils2 utils3
-PARSING = checkings colors init map textures
+UTILS = utils1 utils2 utils3 utils4 ft_split
+PARSING = checkings colors init map textures format
 ERROR = panic garbage
 GNL = get_next_line get_next_line_utils
 DPRINTF = ft_dprintf dprintf_utils dprintf_utils2

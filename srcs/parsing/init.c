@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:26:39 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/24 16:51:52 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/27 21:56:10 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,26 @@ void display_tab(char **tab)
 	}
 }
 
+void    display_misc(t_game *game)
+{
+    printf("NO : %s\n", game->textures[0]);
+    printf("SO : %s\n", game->textures[1]);
+    printf("WE : %s\n", game->textures[2]);
+    printf("EA : %s\n", game->textures[3]);
+    // printf("C : %d, ", game->colors_c[1]);
+    // printf("%d, ", game->colors_c[2]);
+    // printf("%d\n", game->colors_c[3]);
+    // printf("F : %d, ", game->colors_f[1]);
+    // printf("%d, ", game->colors_f[2]);
+    // printf("%d\n", game->colors_f[3]);
+}
+
 void init_map(char *path, t_game *game)
 {
     game->fd = open(path, O_RDONLY);
     if (game->fd == -1)
         panic(FILE_ERR);
     get_info_map(game);
-    display_tab(game->map);
-    //get_textures(game);
-    //get_colors(game);
+    display_misc(game);
+    //display_tab(game->map);
 }
