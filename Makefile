@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -Werror -g3
 MLXFLAGS = -L ./minilibx-linux -lmlx -Ilmlx -lXext -lX11
 INCLUDE = -I./includes
 VPATH = srcs srcs/parsing srcs/utils srcs/error srcs/get_next_line srcs/ft_dprintf
-RM = rm -rf
+RM = rm -rvf
 NAME = cub3D
 
 UTILS = utils1 utils2 utils3 utils4 ft_split
@@ -33,7 +33,7 @@ bonus: all
 $(OBJ_DIR):
 	mkdir -p obj
 
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)/%.o: %.c includes/cub.h includes/ft_dprintf.h includes/get_next_line.h
 	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDE)
 
 clean:

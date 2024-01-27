@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 17:49:36 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/27 21:51:47 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:01:20 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	plen(char **map)
 	if (!map || !(*map))
 		return (0);
 	i = 0;
-	printf("TEST :%s\n", map[1]);
 	while (map[i])
 		i++;
 	return (i);

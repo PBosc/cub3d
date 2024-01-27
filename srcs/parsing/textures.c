@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:09:11 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/27 22:00:10 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/28 00:01:16 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,8 @@ void set_texture(char *line, t_game *game)
     if (!ft_strcmp(splitted[0], "SO"))
         game->textures[1] = ft_strdup(splitted[1]);
     if (!ft_strcmp(splitted[0], "WE"))
-    {
         game->textures[2] = ft_strdup(splitted[1]);
-        printf("DSDS : %s\n", game->textures[2]);
-    }
     if (!ft_strcmp(splitted[0], "EA"))
-    {
         game->textures[3] = ft_strdup(splitted[1]);
-        printf("KAMEGROS : %s\n", game->textures[2]);
-    }
     free_tab(splitted);
 }
