@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkings.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:08:21 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/27 21:36:25 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/28 01:44:11 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int check_one(t_game *game, int i, int j, int *player_count)
         return (ft_in_charset("01NSEW", game->map[i + 1][j]) && ft_in_charset("01NSEW", game->map[i][j + 1]));
     else if (ft_in_charset("NSEW", game->map[i][j]))
     {
-        game->pos.x = j;
-        game->pos.y = i;
+        game->player->pos.x = j;
+        game->player->pos.y = i;
         (*player_count)++;
         return (ft_in_charset("01", game->map[i + 1][j]) && ft_in_charset("01", game->map[i][j + 1]));
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:06:38 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/28 00:01:39 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/28 02:12:29 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	get_info_map(t_game *game)
 		panic(MAP_ERR);
 	get_map(game, line);
 	pre_format_map(game);
-	if (!check_map(game))
-		panic(MAP_ERR);
+	// if (!check_map(game))
+	// 	panic(MAP_ERR);
 	format_map(game);
 }

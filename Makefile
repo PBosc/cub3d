@@ -1,8 +1,8 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
-MLXFLAGS = -L ./minilibx-linux -lmlx -Ilmlx -lXext -lX11
-INCLUDE = -I./includes
-VPATH = srcs srcs/parsing srcs/utils srcs/error srcs/get_next_line srcs/ft_dprintf
+MLXFLAGS = -L ./minilibx-linux -lmlx -Ilmlx -lXext -lX11 -lm
+INCLUDE = -I./includes -Iminilibx-linux
+VPATH = srcs srcs/parsing srcs/utils srcs/error srcs/get_next_line srcs/ft_dprintf srcs/raycasting
 RM = rm -rvf
 NAME = cub3D
 
@@ -11,12 +11,14 @@ PARSING = checkings colors init map textures format
 ERROR = panic garbage
 GNL = get_next_line get_next_line_utils
 DPRINTF = ft_dprintf dprintf_utils dprintf_utils2
+RAYCASTING = draw hooks init_ray moves raycasting utils
 
 SRCS = $(addsuffix .c, $(UTILS))\
 	   $(addsuffix .c, $(PARSING))\
 	   $(addsuffix .c, $(ERROR))\
 	   $(addsuffix .c, $(GNL))\
 	   $(addsuffix .c, $(DPRINTF))\
+	   $(addsuffix .c, $(RAYCASTING))\
 	   main.c
 
 OBJ_DIR = obj
