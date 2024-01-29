@@ -6,31 +6,30 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 00:49:44 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/28 04:28:36 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/29 05:12:10 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-static void	init_caster(t_game *game, t_player *player, int x)
+static void	init_caster(t_mlx *mlx, t_player *player, int x)
 {
-	(void)game;
-	player->player_x = -(2 * x / (double)WIDTH - 1);
-	set_pos(&(player->ray_dir),
+	player->player_x = -(2 * x / (double)mlx->width - 1);
+	set_pos(&player->ray_dir,
 		player->dir.x + player->plane.x * player->player_x,
 		player->dir.y + player->plane.y * player->player_x);
 	player->map_x = (int)player->pos.x;
 	player->map_y = (int)player->pos.y;
 	if (player->ray_dir.x == 0 && player->ray_dir.y == 0)
-		set_pos(&(player->delta_dist), DBL_MAX, DBL_MAX);
+		set_pos(&player->delta_dist, DBL_MAX, DBL_MAX);
 	else if (player->ray_dir.x == 0 && player->ray_dir.y != 0)
-		set_pos(&(player->delta_dist), DBL_MAX,
+		set_pos(&player->delta_dist, DBL_MAX,
 			fabs(1 / player->ray_dir.y));
 	else if (player->ray_dir.x != 0 && player->ray_dir.y == 0)
-		set_pos(&(player->delta_dist), fabs(1 / player->ray_dir.x),
+		set_pos(&player->delta_dist, fabs(1 / player->ray_dir.x),
 			DBL_MAX);
 	else
-		set_pos(&(player->delta_dist), fabs(1 / player->ray_dir.x),
+		set_pos(&player->delta_dist, fabs(1 / player->ray_dir.x),
 			fabs(1 / player->ray_dir.y));
 }
 
@@ -62,8 +61,7 @@ static void	player_step(t_player *player)
 	}
 }
 
-static void	hit_detection(t_player *player, t_game *game,
-	int *hit)
+static void	hit_detection(t_player *player, t_map *map)
 {
 	if (player->side_dist.x < player->side_dist.y)
 	{
@@ -77,35 +75,35 @@ static void	hit_detection(t_player *player, t_game *game,
 		player->map_y += player->step_y;
 		player->side = 1;
 	}
-	if (player->map_y >= game->length || player->map_x >= game->width
+	if (player->map_y >= map->height || player->map_x >= map->width
 		|| player->map_y < 0 || player->map_x < 0
-		|| game->map[player->map_y][player->map_x] == '1')
-		*hit = 1;
+		|| map->map[player->map_y][player->map_x] == '1')
+		player->hit = 1;
+	else if (player->map_y >= map->height || player->map_x >= map->width
+		|| player->map_y < 0 || player->map_x < 0
+		|| map->map[player->map_y][player->map_x] == '2')
+		player->hit = 2;
 }
 
-void	caster(t_game *game, t_player *player, t_mlx *mlx)
+void	caster(t_mlx *mlx, t_map *map, t_player *player)
 {
 	int	x;
-	int	hit;
 
 	x = 0;
-	printf("width: %d\n", WIDTH);
-	while (x < WIDTH + 1)
+	while (x < mlx->width)
 	{
-		init_caster(game, player, x);
+		init_caster(mlx, player, x);
 		player_step(player);
-		hit = 0;
-		while (hit == 0)
-			hit_detection(player, game, &hit);
+		player->hit = 0;
+		while (player->hit == 0)
+			hit_detection(player, map);
 		if (player->side == 0)
 			player->perp_wall_dist = player->side_dist.x - player->delta_dist.x;
 		else
 			player->perp_wall_dist = player->side_dist.y - player->delta_dist.y;
 		if (player->perp_wall_dist == 0)
 			player->perp_wall_dist = 1;
-		printf("x: %d\n", x);
-		draw_Vline(mlx, player, x);
-		printf("x: %d\n", x);
+		draw_3d_walls(mlx, map, player, x);
 		++x;
 	}
 }

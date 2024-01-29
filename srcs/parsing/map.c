@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:06:38 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/28 02:12:29 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/29 05:04:10 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	get_map(t_game *game, char *line)
 	{
 		if (!*line)
 			panic(MAP_ERR);
-		game->map = gc(join_tab(game->map, line), 1);
+		game->map = gc(join_tab(game->map->map, line), 1);
 		game->length++;
 		game->width = max(game->width, ft_strlen(line));
 		line = get_next_line(game->fd);

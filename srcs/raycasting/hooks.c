@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 00:38:11 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/28 03:36:19 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/29 05:06:22 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@ int	on_keypress(int keycode, t_game *game)
 	if (keycode == XK_Escape)
 		return (exit(EXIT_SUCCESS), 1);
 	if (keycode == XK_w)
-		game->pressed_w = true;
+		game->player->w = true;
 	if (keycode == XK_a)
-		game->pressed_a = true;
+		game->player->a = true;
 	if (keycode == XK_s)
-		game->pressed_s = true;
+		game->player->s = true;
 	if (keycode == XK_d)
-		game->pressed_d = true;
-	// if (keycode == XK_e)
-	// 	door_action(game->display, game->map, game->camera);
+		game->player->d = true;
+	if (keycode == XK_e)
+		door_action(game->mlx, game->map, game->player);
 	if (keycode == XK_Left)
-		game->pressed_left = true;
+		game->player->l_key = true;
 	if (keycode == XK_Right)
-		game->pressed_right = true;
+		game->player->r_key = true;
 	return (1);
 }
 
@@ -38,16 +38,45 @@ int	on_keyrelease(int keycode, t_game *game)
 	if (keycode == XK_Escape)
 		return (exit(EXIT_SUCCESS), 1);
 	if (keycode == XK_w)
-		game->pressed_w = false;
+		game->player->w = false;
 	if (keycode == XK_a)
-		game->pressed_a = false;
+		game->player->a = false;
 	if (keycode == XK_s)
-		game->pressed_s = false;
+		game->player->s = false;
 	if (keycode == XK_d)
-		game->pressed_d = false;
+		game->player->d = false;
 	if (keycode == XK_Left)
-		game->pressed_left = false;
+		game->player->l_key = false;
 	if (keycode == XK_Right)
-		game->pressed_right = false;
+		game->player->r_key = false;
+	return (1);
+}
+
+int	on_mousepress(int button, int x, int y, t_game *game)
+{
+	(void)x;
+	(void)y;
+	if (button == 1)
+		game->player->a = true;
+	if (button == 3)
+		game->player->d = true;
+	return (1);
+}
+
+int	on_mouserelease(int button, int x, int y, t_game *game)
+{
+	(void)x;
+	(void)y;
+	if (button == 1)
+		game->player->a = false;
+	if (button == 3)
+		game->player->d = false;
+	return (1);
+}
+
+int	on_destroy(t_game *game)
+{
+	(void)game;
+	exit(EXIT_SUCCESS);
 	return (1);
 }

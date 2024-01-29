@@ -11,7 +11,7 @@ PARSING = checkings colors init map textures format
 ERROR = panic garbage
 GNL = get_next_line get_next_line_utils
 DPRINTF = ft_dprintf dprintf_utils dprintf_utils2
-RAYCASTING = draw hooks init_ray moves raycasting utils
+RAYCASTING = draw hooks init_ray moves raycasting utils handle_doors rotations texture
 
 SRCS = $(addsuffix .c, $(UTILS))\
 	   $(addsuffix .c, $(PARSING))\

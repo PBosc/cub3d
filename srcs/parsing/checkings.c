@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:08:21 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/28 01:44:11 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/29 04:58:36 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,17 @@ int ft_in_charset(char *charset, char c)
 int check_one(t_game *game, int i, int j, int *player_count)
 {
     if (i == 0 || i == game->length - 1 || j == 0 || j == game->width - 1)
-        return (ft_in_charset("12", game->map[i][j]));
-    if (game->map[i][j] == '2')
-        return (ft_in_charset("12", game->map[i + 1][j]) && ft_in_charset("12", game->map[i][j + 1]));
-    else if (game->map[i][j] == '0')
-        return (ft_in_charset("01NSEW", game->map[i + 1][j]) && ft_in_charset("01NSEW", game->map[i][j + 1]));
-    else if (ft_in_charset("NSEW", game->map[i][j]))
+        return (ft_in_charset("12", game->map->map[i][j]));
+    if (game->map->map[i][j] == '2')
+        return (ft_in_charset("12", game->map->map[i + 1][j]) && ft_in_charset("12", game->map->map[i][j + 1]));
+    else if (game->map->map[i][j] == '0')
+        return (ft_in_charset("01NSEW", game->map->map[i + 1][j]) && ft_in_charset("01NSEW", game->map->map[i][j + 1]));
+    else if (ft_in_charset("NSEW", game->map->map[i][j]))
     {
         game->player->pos.x = j;
         game->player->pos.y = i;
         (*player_count)++;
-        return (ft_in_charset("01", game->map[i + 1][j]) && ft_in_charset("01", game->map[i][j + 1]));
+        return (ft_in_charset("01", game->map->map[i + 1][j]) && ft_in_charset("01", game->map->map[i][j + 1]));
     }
     return (1);
 }
@@ -52,12 +52,12 @@ int    check_map(t_game *game)
 
     i = 0;
     player_count = 0;
-    while (game->map[i])
+    while (game->map->map[i])
     {
         j = 0;
-        while (game->map[i][j])
+        while (game->map->map[i][j])
         {
-            if (!ft_in_charset("012NSEW", game->map[i][j]))
+            if (!ft_in_charset("012NSEW", game->map->map[i][j]))
                 return (0);
             if (!check_one(game, i, j, &player_count))
                 return (printf("i:%d , j:%d\n", i, j), 0);

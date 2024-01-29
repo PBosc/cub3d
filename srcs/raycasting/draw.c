@@ -6,31 +6,31 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 01:33:43 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/28 04:31:40 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/29 05:06:04 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
 
-static void	my_pixel_put(int x, int y, t_img *img, int color)
+void	mlx_spp(t_mlx *mlx, int x, int y, int color)
 {
-	int	offset;
+	char	*dst;
 
-	offset = (y * img->line_len) + (x * (img->bpp / 8));
-	*(unsigned int *)(img->pixels_ptr + offset) = color;
+	dst = mlx->addr + (y * mlx->size_line + x * (mlx->bpp / 8));
+	*(unsigned int *)dst = color;
 }
 
-static void	init_line(t_line *line,
+static void	initialize_line(t_mlx *mlx, t_line *line,
 		t_player *player, const int line_height)
 {
-	line->draw_start = -line_height / 2 + HEIGHT / 2;
+	line->draw_start = -line_height / 2 + mlx->height / 2;
 	if (line->draw_start < 0)
 		line->draw_start = 0;
-	line->draw_end = line_height / 2 + HEIGHT / 2;
-	if (line->draw_end >= HEIGHT)
-		line->draw_end = HEIGHT - 1;
-	// line->texture_number = select_texture(player);
+	line->draw_end = line_height / 2 + mlx->height / 2;
+	if (line->draw_end >= mlx->height)
+		line->draw_end = mlx->height - 1;
+	line->texture_number = select_texture_wall(player);
 	if (player->side == 0)
 		line->wall_x = player->pos.y + player->perp_wall_dist
 			* player->ray_dir.y;
@@ -38,43 +38,40 @@ static void	init_line(t_line *line,
 		line->wall_x = player->pos.x + player->perp_wall_dist
 			* player->ray_dir.x;
 	line->wall_x -= floor((line->wall_x));
-	// line->texture_x = (int)(line->wall_x * (double)TEXTURE_WIDTH);
-	// if (player->side == 0 && player->ray_dir.x > 0)
-	// 	line->texture_x = TEXTURE_WIDTH - line->texture_x - 1;
-	// if (player->side == 1 && player->ray_dir.y < 0)
-	// 	line->texture_x = TEXTURE_WIDTH - line->texture_x - 1;
-	// line->step = 1.0 * TEXTURE_HEIGHT / line_height;
-	// line->texture_pos = (line->draw_start - HEIGHT
-	// 		/ 2 + line_height / 2) * line->step;
+	line->texture_x = (int)(line->wall_x * (double)64);
+	if (player->side == 0 && player->ray_dir.x > 0)
+		line->texture_x = 64 - line->texture_x - 1;
+	if (player->side == 1 && player->ray_dir.y < 0)
+		line->texture_x = 64 - line->texture_x - 1;
+	line->step = 1.0 * 64 / line_height;
+	line->texture_pos = (line->draw_start - mlx->height
+			/ 2 + line_height / 2) * line->step;
 }
 
-void	draw_Vline(t_mlx *mlx, t_player *player, int x)
+void	draw_3d_walls(t_mlx *mlx, t_map *map, t_player *player, int x)
 {
-	const int		line_height = (int)(HEIGHT
+	const int		line_height = (int)(mlx->height
 			/ player->perp_wall_dist);
 	int				y;
 	t_line		line;
 
-	init_line(&line, player, line_height);
+	initialize_line(mlx, &line, player, line_height);
 	y = 0;
-	printf("y = %d\n", y);
-	printf("line.draw_start = %d\n", line.draw_start);
-	printf("line.draw_end = %d\n", line.draw_end);
 	while (y < line.draw_start)
-		my_pixel_put((int)x, (int)y++, &mlx->img, RED);
+		mlx_spp(mlx, x, y++, map->ceiling_color);
 	y = line.draw_start;
 	while (y < line.draw_end)
 	{
-		// line.texture_y = (int)line.texture_pos & (TEXTURE_HEIGHT - 1);
-		// line.texture_pos += line.step;
-		// line.color = get_color(map, line.texture_number, line.texture_x,
-		// 		line.texture_y);
-		// if (player->side == 1)
-		// 	line.color = (line.color >> 1) & 8355711;
-		my_pixel_put((int)x, (int)y, &mlx->img, BLUE);
+		line.texture_y = (int)line.texture_pos & (63);
+		line.texture_pos += line.step;
+		line.color = get_color_r(map, line.texture_number, line.texture_x,
+				line.texture_y);
+		if (player->side == 1)
+			line.color = (line.color >> 1) & 8355711;
+		mlx_spp(mlx, x, y, line.color);
 		++y;
 	}
 	y = line.draw_end;
-	while (y < HEIGHT)
-		my_pixel_put((int)x, (int)y++, &mlx->img, GREEN);
+	while (y < mlx->height)
+		mlx_spp(mlx, x, y++, map->floor_color);
 }

@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:46:02 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/28 03:23:55 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/29 05:17:19 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include "mlx.h"
-// # include "mlx_int.h"
+# include "mlx_int.h"
 
 # define ON_KEYPRESS 2
 # define ON_KEYRELEASE 3
@@ -43,8 +43,8 @@
 # define FILE_ERR "File error\n"
 # define MAP_ERR "Map error\n"
 
-# define WIDTH 1280
-# define HEIGHT 720
+# define WIDTH 1920
+# define HEIGHT 1080
 #define BLACK       		0x000000
 #define WHITE       		0xFFFFFF
 #define RED         		0xFF0000
@@ -65,6 +65,21 @@ typedef struct s_pos
 	double				y;
 }						t_pos;
 
+
+typedef struct s_mlx
+{
+	void		*mlx;
+	void		*win;
+	void		*img;
+	void		*addr;
+	int			height;
+	int			width;
+	int			bpp;
+	int			size_line;
+	int			endian;
+	bool		refresh;
+}				t_mlx;
+
 typedef struct s_param
 {
 }						t_param;
@@ -82,43 +97,79 @@ typedef struct s_line
 	double			step;
 }					t_line;
 
+typedef struct s_texture
+{
+	void			*mlx;
+	void			*win;
+	void			*img;
+	void			*addr;
+	int				height;
+	int				width;
+	int				bpp;
+	int				size_line;
+	int				endian;
+}					t_texture;
+
 typedef struct s_player
 {
-	double		player_x;
-	double		perp_wall_dist;
-	int			step_x;
-	int			step_y;
-	int			map_x;
-	int			map_y;
-	int			side;
+	double			player_x;
+	double			perp_wall_dist;
+	int				step_x;
+	int				step_y;
+	int				map_x;
+	int				map_y;
+	int				side;
 	t_pos		pos;
 	t_pos		dir;
 	t_pos		plane;
 	t_pos		ray_dir;
 	t_pos		side_dist;
 	t_pos		delta_dist;
-	double		move_speed;
-	double		rot_speed;
-}				t_player;
+	double			move_speed;
+	double			rot_speed;
+	bool			w;
+	bool			a;
+	bool			s;
+	bool			d;
+	bool			l_key;
+	bool			r_key;
+	int				hit;
+	float			angle;
+}					t_player;
+
+typedef struct s_map
+{
+	int				ceiling_color;
+	int				floor_color;
+	char			*path_north;
+	char			*path_south;
+	char			*path_east;
+	char			*path_west;
+	char			*path_door_closed;
+	int				total_parameters;
+	int				param_lines[7];
+	int				height;
+	int				width;
+	int				first_line_map;
+	int				start_coords[2];
+	char			start_direction;
+	int				islands;
+	char			**map;
+	t_texture		textures[5];
+}					t_map;
 
 typedef struct s_game
 {
 	int					fd;
 	t_player			*player;
-	char				**map;
+	t_map				*map;
 	char				start_direction;
 	int					length;
 	int					width;
-	bool				pressed_w;
-	bool				pressed_a;
-	bool				pressed_s;
-	bool				pressed_d;
-	bool				pressed_left;
-	bool				pressed_right;
 	char				*textures[4];
 	int					colors_c[4];
 	int					colors_f[4];
-	bool				refresh;
+	t_mlx				*mlx;
 }						t_game;
 
 typedef struct s_garbage
@@ -126,29 +177,6 @@ typedef struct s_garbage
 	void				*content;
 	struct s_garbage	*next;
 }						t_garbage;
-
-typedef struct	s_img
-{
-	void	*img_ptr;
-	char	*pixels_ptr;
-	int		bpp;
-	int		endian;
-	int		line_len;
-}				t_img;
-
-typedef struct s_mlx
-{
-	void		*mlx;
-	void		*win;
-	t_img		img;
-	void		*addr;
-	int			height;
-	int			width;
-	int			bpp;
-	int			size_line;
-	int			endian;
-	bool		refresh;
-}				t_mlx;
 
 /*Parsing*/
 
@@ -201,12 +229,24 @@ void					free_tab(char **tab);
 void	set_pos(t_pos *pos, double x, double y);
 void	draw_Vline(t_mlx *mlx, t_player *player, int x);
 bool	start_window(t_mlx *mlx, t_game *game);
-void	caster(t_game *game, t_player *player, t_mlx *mlx);
+void	caster(t_mlx *mlx, t_map *map, t_player *player);
 
 /*Hooks*/
 
-int		on_keyrelease(int keycode, t_game *game);
-int		on_keypress(int keycode, t_game *game);
-void	move(t_game *game);
+int				on_keyrelease(int keycode, t_game *game);
+int				on_keypress(int keycode, t_game *game);
+int				on_destroy(t_game *game);
+void			move(t_game *game, t_mlx *mlx);
+int				select_texture_wall(t_player *player);
+unsigned int	get_color_r(t_map *map, int id, int texture_x, int texture_y);
+bool			door(t_map *map, t_player *player);
+void			door_action(t_mlx *mlx, t_map *map, t_player *player);
+void			r_key(t_mlx *mlx, t_player *player);
+void			l_key(t_mlx *mlx, t_player *player);
+void	draw_3d_walls(t_mlx *mlx, t_map *map, t_player *player, int x);
+void	set_to_zero_player(t_game *game, t_player *player);
+void	set_to_zero_mlx(t_game *game, t_mlx *mlx);
+void	set_to_zero_map(t_game *game, t_map *map);
+int ft_in_charset(char *charset, char c);
 
 #endif

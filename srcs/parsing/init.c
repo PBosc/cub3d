@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:26:39 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/28 02:12:27 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/29 05:00:39 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,5 @@ void init_map(char *path, t_game *game)
         panic(FILE_ERR);
     get_info_map(game);
     display_misc(game);
-    display_tab(game->map);
+    display_tab(game->map->map);
 }
